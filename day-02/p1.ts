@@ -1,18 +1,18 @@
 import { readline } from "https://deno.land/x/readline@v1.1.0/mod.ts";
 
-type Move = 'Rock' | 'Paper' | 'Scissors'
-type Round = {
+export type Move = 'Rock' | 'Paper' | 'Scissors'
+export type Round = {
   move: Move,
   opponentMove: Move
 }
 
-const example = [
+export const example = [
 'A Y',
 'B X',
 'C Z',
 ]
 
-const moveHash: {[key: string]: Move} = {
+export const moveHash: {[key: string]: Move} = {
   'A': 'Rock',
   'B': 'Paper',
   'C': 'Scissors',
@@ -20,7 +20,7 @@ const moveHash: {[key: string]: Move} = {
   'Y': 'Paper',
   'Z': 'Scissors',
 }
-const selectionPointsHash: {[key in Move]: number} = {
+export const selectionPointsHash: {[key in Move]: number} = {
   'Rock': 1,
   'Paper': 2,
   'Scissors': 3,
@@ -52,21 +52,15 @@ const pointsForRound = (round: Round): number => {
   return selectionPoints + winPoints
 }
 
-const totalPoints = (lines: string[]): number => {
+export const totalPoints = (lines: string[], lineToRound: (line: string) => Round): number => {
   let points = 0
   lines.forEach(line => points += pointsForRound(lineToRound(line)))
   return points;
 }
-console.log(totalPoints(example))
+export const filenameToLines = (filename: string): string[] => {
+  const file = Deno.readTextFileSync(filename)
+  return file.split('\n')
+}
 
-const file = await Deno.readTextFile('./day-02/data.txt')
-const lines = file.split('\n')
-console.log(totalPoints(lines))
-// const totalPointFromFile = async (filename: string): number => {
-//   const file = await Deno.open('./day-02/data.txt')
-//   const points = 0
-//   for await (const line of readline(file)) {
-//     points += pointsForRound(lineToRound(line))
-//   }
-// }
-// for (line in await readline(example))
+// const lines = filenameToLines('./day-02/data.txt')
+// console.log(totalPoints(lines, lineToRound))
