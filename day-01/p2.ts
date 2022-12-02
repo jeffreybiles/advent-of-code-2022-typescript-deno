@@ -1,4 +1,4 @@
-import { Elf, getCaloriesPerElf, getElfData } from "./p1.ts";
+import { getCaloriesPerElf, getElfData } from "./p1.ts";
 
 const elfData = await getElfData('./day-01/data.txt')
 const elfCalories = getCaloriesPerElf(elfData).toSorted().toReversed()
